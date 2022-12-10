@@ -3,18 +3,19 @@ use serde_derive::Deserialize;
 use serde_derive::Serialize;
 use serde_json::Value;
 
-use crate::TRN_API_Key;
+use crate::TRN_API_KEY;
 use crate::BASE_URL;
 
-pub async fn get_matchs(client: Client, name: &str, tag: &str) -> Result<Matchs, reqwest::Error> {
+pub async fn get_matchs(name: String, tag: String, client: Client) -> Result<Matchs, reqwest::Error> {
     Ok(client
         .get(format!("{}/matches/riot/{}%23{}", BASE_URL, name, tag))
         .query(&[("source", "overwolf")])
-        .header("TRN-API-Key", TRN_API_Key)
+        .header("TRN-API-Key", TRN_API_KEY)
         .send()
         .await?
         .json::<Root>()
-        .await?.data)
+        .await?
+        .data)
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -157,15 +158,14 @@ pub struct Playtime {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata3,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata3 {
-}
+pub struct Metadata3 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -176,15 +176,14 @@ pub struct RoundsPlayed {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata4,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata4 {
-}
+pub struct Metadata4 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -195,15 +194,14 @@ pub struct RoundsWon {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata5,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata5 {
-}
+pub struct Metadata5 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -214,15 +212,14 @@ pub struct RoundsLost {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata6,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata6 {
-}
+pub struct Metadata6 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -240,8 +237,7 @@ pub struct RoundsDisconnected {
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata7 {
-}
+pub struct Metadata7 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -252,15 +248,14 @@ pub struct Placement {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata8,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata8 {
-}
+pub struct Metadata8 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -271,15 +266,14 @@ pub struct Score {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata9,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata9 {
-}
+pub struct Metadata9 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -290,15 +284,14 @@ pub struct Kills {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata10,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata10 {
-}
+pub struct Metadata10 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -309,15 +302,14 @@ pub struct Deaths {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata11,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata11 {
-}
+pub struct Metadata11 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -328,15 +320,14 @@ pub struct Assists {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata12,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata12 {
-}
+pub struct Metadata12 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -347,15 +338,14 @@ pub struct Damage {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata13,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata13 {
-}
+pub struct Metadata13 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -366,15 +356,14 @@ pub struct DamageReceived {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata14,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata14 {
-}
+pub struct Metadata14 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -385,15 +374,14 @@ pub struct Headshots {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata15,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata15 {
-}
+pub struct Metadata15 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -404,15 +392,14 @@ pub struct GrenadeCasts {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata16,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata16 {
-}
+pub struct Metadata16 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -423,15 +410,14 @@ pub struct Ability1Casts {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata17,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata17 {
-}
+pub struct Metadata17 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -442,15 +428,14 @@ pub struct Ability2Casts {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata18,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata18 {
-}
+pub struct Metadata18 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -461,15 +446,14 @@ pub struct UltimateCasts {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata19,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata19 {
-}
+pub struct Metadata19 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -480,15 +464,14 @@ pub struct DealtHeadshots {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata20,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata20 {
-}
+pub struct Metadata20 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -499,15 +482,14 @@ pub struct DealtBodyshots {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata21,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata21 {
-}
+pub struct Metadata21 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -518,15 +500,14 @@ pub struct DealtLegshots {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata22,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata22 {
-}
+pub struct Metadata22 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -537,15 +518,14 @@ pub struct EconRating {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata23,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata23 {
-}
+pub struct Metadata23 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -556,15 +536,14 @@ pub struct Suicides {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata24,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata24 {
-}
+pub struct Metadata24 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -582,8 +561,7 @@ pub struct Revived {
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata25 {
-}
+pub struct Metadata25 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -594,15 +572,14 @@ pub struct FirstBloods {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata26,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata26 {
-}
+pub struct Metadata26 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -613,15 +590,14 @@ pub struct FirstDeaths {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata27,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata27 {
-}
+pub struct Metadata27 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -632,15 +608,14 @@ pub struct LastDeaths {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata28,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata28 {
-}
+pub struct Metadata28 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -651,15 +626,14 @@ pub struct Survived {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata29,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata29 {
-}
+pub struct Metadata29 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -670,15 +644,14 @@ pub struct Traded {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata30,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata30 {
-}
+pub struct Metadata30 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -696,8 +669,7 @@ pub struct Kasted {
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata31 {
-}
+pub struct Metadata31 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -708,15 +680,14 @@ pub struct KAst {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata32,
-    pub value: f64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata32 {
-}
+pub struct Metadata32 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -727,15 +698,14 @@ pub struct Flawless {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata33,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata33 {
-}
+pub struct Metadata33 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -753,8 +723,7 @@ pub struct Thrifty {
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata34 {
-}
+pub struct Metadata34 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -765,15 +734,14 @@ pub struct Aces {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata35,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata35 {
-}
+pub struct Metadata35 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -784,34 +752,32 @@ pub struct TeamAces {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata36,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata36 {
-}
+pub struct Metadata36 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
 pub struct Clutches {
     pub rank: Value,
-    pub percentile: Value,
+    // pub percentile: Value,
     pub display_name: String,
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata37,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata37 {
-}
+pub struct Metadata37 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -822,15 +788,14 @@ pub struct ClutchesLost {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata38,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata38 {
-}
+pub struct Metadata38 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -841,15 +806,14 @@ pub struct Plants {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata39,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata39 {
-}
+pub struct Metadata39 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -860,15 +824,14 @@ pub struct Defuses {
     pub display_category: String,
     pub category: String,
     pub metadata: Metadata40,
-    pub value: i64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata40 {
-}
+pub struct Metadata40 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -879,15 +842,14 @@ pub struct KdRatio {
     pub display_category: Value,
     pub category: Value,
     pub metadata: Metadata41,
-    pub value: f64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata41 {
-}
+pub struct Metadata41 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -898,15 +860,14 @@ pub struct ScorePerRound {
     pub display_category: Value,
     pub category: Value,
     pub metadata: Metadata42,
-    pub value: f64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata42 {
-}
+pub struct Metadata42 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -917,15 +878,14 @@ pub struct DamagePerRound {
     pub display_category: Value,
     pub category: Value,
     pub metadata: Metadata43,
-    pub value: f64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata43 {
-}
+pub struct Metadata43 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -936,15 +896,14 @@ pub struct HeadshotsPercentage {
     pub display_category: Value,
     pub category: Value,
     pub metadata: Metadata44,
-    pub value: f64,
-    pub display_value: String,
+    pub value: Option<f64>,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
-pub struct Metadata44 {
-}
+pub struct Metadata44 {}
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "camelCase")]
@@ -956,7 +915,7 @@ pub struct Rank {
     pub category: String,
     pub metadata: Metadata45,
     pub value: Value,
-    pub display_value: String,
+    pub display_value: Option<String>,
     pub display_type: String,
 }
 

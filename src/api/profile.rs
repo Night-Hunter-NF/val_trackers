@@ -3,18 +3,19 @@ use serde_derive::Deserialize;
 use serde_derive::Serialize;
 use serde_json::Value;
 
-use crate::TRN_API_Key;
+use crate::TRN_API_KEY;
 use crate::BASE_URL;
 
-pub async fn get_profile(client: Client, name: &str, tag: &str) -> Result<Profile, reqwest::Error> {
+pub async fn get_profile(name: String, tag: String, client: Client) -> Result<Profile, reqwest::Error> {
     Ok(client
         .get(format!("{}/profile/riot/{}%23{}", BASE_URL, name, tag))
         .query(&[("source", "overwolf")])
-        .header("TRN-API-Key", TRN_API_Key)
+        .header("TRN-API-Key", TRN_API_KEY)
         .send()
         .await?
         .json::<Root>()
-        .await?.data)
+        .await?
+        .data)
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
@@ -87,7 +88,7 @@ pub struct Segment {
 pub struct Attributes {
     pub key: Option<String>,
     pub playlist: String,
-    pub season_id: Value,
+    pub season_id: Option<Value>,
 }
 
 #[derive(Default, Debug, Clone, PartialEq, Serialize, Deserialize)]
